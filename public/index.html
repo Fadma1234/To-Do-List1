@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <!-- Auth Section -->
+    <div id="auth-section" class="auth-section">
+      <div class="auth-card">
+        <h1 class="logo">To-Do</h1>
+        <p class="tagline">Get things done. One task at a time.</p>
+
+        <form id="login-form" class="auth-form">
+          <h2>Sign In</h2>
+          <input type="email" id="login-email" placeholder="Email" required autocomplete="email">
+          <input type="password" id="login-password" placeholder="Password" required autocomplete="current-password">
+          <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+
+        <form id="register-form" class="auth-form">
+          <h2>Create Account</h2>
+          <input type="email" id="register-email" placeholder="Email" required autocomplete="email">
+          <input type="password" id="register-password" placeholder="Password (min 6 chars)" required autocomplete="new-password" minlength="6">
+          <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+
+        <p class="auth-toggle">
+          <span id="toggle-text">Don't have an account? </span>
+          <button type="button" id="toggle-auth" class="link">Sign up</button>
+        </p>
+
+        <div id="auth-error" class="error-message" role="alert"></div>
+      </div>
+    </div>
+
+    <!-- Todo Section -->
+    <div id="todo-section" class="todo-section hidden">
+      <header class="todo-header">
+        <h1>My Tasks</h1>
+        <div class="header-actions">
+          <span id="user-email" class="user-email"></span>
+          <button id="logout-btn" class="btn btn-ghost">Logout</button>
+        </div>
+      </header>
+
+      <div class="todo-content">
+        <form id="add-task-form" class="add-task-form">
+          <input type="text" id="task-input" placeholder="What needs to be done?" autocomplete="off">
+          <button type="submit" class="btn btn-primary btn-add">Add</button>
+        </form>
+
+        <ul id="task-list" class="task-list"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
