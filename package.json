@@ -1,20 +1,24 @@
 {
   "name": "todo-list-fullstack",
   "version": "1.0.0",
-  "description": "Full-stack to-do list with authentication",
-  "main": "server/index.js",
+  "private": true,
+  "type": "module",
+  "description": "Full-stack to-do list with authentication using Convex",
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "node server/index.js"
+    "dev": "npm-run-all --parallel dev:backend dev:frontend",
+    "dev:frontend": "vite",
+    "dev:backend": "convex dev",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "keywords": ["todo", "fullstack", "auth"],
+  "keywords": ["todo", "fullstack", "convex", "auth"],
   "license": "MIT",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "better-sqlite3": "^11.0.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.2"
+    "convex": "^1.17.0",
+    "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "vite": "^6.0.0"
   }
 }
