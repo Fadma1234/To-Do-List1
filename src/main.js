@@ -3,7 +3,19 @@ import { anyApi } from "convex/server";
 
 // Initialize Convex client
 const CONVEX_URL = import.meta.env.VITE_CONVEX_URL;
+if (!CONVEX_URL) {
+  console.warn("VITE_CONVEX_URL not set. Run 'npx convex dev' to configure.");
+}
 const client = CONVEX_URL ? new ConvexHttpClient(CONVEX_URL) : null;
+
+function requireClient() {
+  if (!client) {
+    throw new Error(
+      "Backend not connected. Run 'npx convex dev' in your terminal first, then restart Vite."
+    );
+  }
+  return client;
+}
 
 // DOM elements
 const authSection = document.getElementById("auth-section");
@@ -64,7 +76,7 @@ loginForm.addEventListener("submit", async (e) => {
   const password = document.getElementById("login-password").value;
 
   try {
-    const data = await client.action(anyApi.auth.login, { email, password });
+    const data = await requireClient().action(anyApi.auth.login, { email, password });
     token = data.token;
     user = data.user;
     localStorage.setItem("token", token);
@@ -84,7 +96,7 @@ registerForm.addEventListener("submit", async (e) => {
   const password = document.getElementById("register-password").value;
 
   try {
-    const data = await client.action(anyApi.auth.register, { email, password });
+    const data = await requireClient().action(anyApi.auth.register, { email, password });
     token = data.token;
     user = data.user;
     localStorage.setItem("token", token);
@@ -120,7 +132,7 @@ function showTodo() {
 // Tasks
 async function loadTasks() {
   try {
-    const tasks = await client.query(anyApi.tasks.list, { token });
+    const tasks = await requireClient().query(anyApi.tasks.list, { token });
     renderTasks(tasks);
   } catch (err) {
     if (err.message?.includes("Authentication required")) {
@@ -166,7 +178,7 @@ async function handleCheckbox(e) {
   const done = e.target.checked;
 
   try {
-    await client.mutation(anyApi.tasks.toggleDone, { token, taskId, done });
+    await requireClient().mutation(anyApi.tasks.toggleDone, { token, taskId, done });
     li.classList.toggle("done", done);
   } catch {
     e.target.checked = !done;
@@ -180,7 +192,7 @@ async function handleDelete(e) {
   const taskId = li.dataset.id;
 
   try {
-    await client.mutation(anyApi.tasks.remove, { token, taskId });
+    await requireClient().mutation(anyApi.tasks.remove, { token, taskId });
     li.remove();
     // Check if list is now empty
     if (!taskList.querySelector(".task-item")) {
@@ -201,7 +213,7 @@ addTaskForm.addEventListener("submit", async (e) => {
   taskInput.value = "";
 
   try {
-    await client.mutation(anyApi.tasks.create, { token, title });
+    await requireClient().mutation(anyApi.tasks.create, { token, title });
     await loadTasks();
   } catch (err) {
     alert(err.message || "Failed to add task");
