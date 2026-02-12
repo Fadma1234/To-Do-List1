@@ -2,8 +2,9 @@ import { ConvexHttpClient } from "convex/browser";
 import { anyApi } from "convex/server";
 
 // Initialize Convex client
-const CONVEX_URL = import.meta.env.VITE_CONVEX_URL;
-const client = CONVEX_URL ? new ConvexHttpClient(CONVEX_URL) : null;
+const CONVEX_URL =
+  import.meta.env.VITE_CONVEX_URL || "https://valiant-cat-888.convex.cloud";
+const client = new ConvexHttpClient(CONVEX_URL);
 
 // DOM elements
 const authSection = document.getElementById("auth-section");
